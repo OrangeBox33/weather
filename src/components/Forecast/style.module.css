@@ -1,0 +1,9 @@
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.outerContainer {
+  display: flex;
+  margin-bottom: 10px;
+}

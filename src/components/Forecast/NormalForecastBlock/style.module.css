@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  width: 80px;
+  height: 70px;
+  background-color: #e8d0f5;
+  padding: 4px;
+  border: 1px solid #be72e8;
+  justify-content: space-around;
+  cursor: pointer;
+}
+
+.tempAvg {
+  align-self: center;
+  justify-self: center;
+}
+
+.date {
+  font-size: 12px;
+  align-self: flex-start;
+}

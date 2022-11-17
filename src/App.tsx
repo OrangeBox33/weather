@@ -1,56 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { useEffect } from "react";
+import { useGeolocation } from "./hooks/hooks";
+import { useTypedDispatch, useTypedSelector } from "./store/hooks";
+import { getWeather } from "./store/slices/forecast";
+import { FactWeather } from "./components/FactWeather";
+import { Forecast } from "./components/Forecast";
+import styles from "./App.module.css";
+import { CoordControl } from "./components/СoordСontrol";
+import { SavedCoords } from "./components/SavedCoords";
 
 function App() {
+  const dispatch = useTypedDispatch();
+  const { loading } = useTypedSelector((state) => state.forecast);
+  const { geoAvailable, lat, lon } = useGeolocation();
+
+  const coordExist = lat && lon;
+
+  useEffect(() => {
+    if (coordExist) {
+      dispatch(getWeather(lat, lon));
+    }
+  }, [lat, lon]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <div className={styles.forecastWrapper}>
+          {!geoAvailable && <h1>ВКЛЮЧИ ГЕО!!! (пожалуйста)</h1>}
+          {geoAvailable && !coordExist && <h1>Обнаружение координат...</h1>}
+          {loading && <div className={styles.loading}>Loading...</div>}
+          {coordExist && !loading && <FactWeather />}
+          {coordExist && !loading && <Forecast />}
+        </div>
+        <div className={styles.coordWrapper}>
+          {coordExist && <CoordControl lat={lat} lon={lon} />}
+          {coordExist && <SavedCoords />}
+        </div>
+      </div>
     </div>
   );
 }

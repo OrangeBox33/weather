@@ -1,0 +1,26 @@
+@import "~antd/dist/antd.css";
+
+.container {
+  text-align: center;
+}
+
+.wrapper {
+  display: inline-block;
+}
+
+.forecastWrapper {
+  display: flex;
+  margin-top: 50px;
+  width: 750px;
+}
+
+.coordWrapper {
+  display: flex;
+  margin-top: 20px;
+}
+
+.loading {
+  height: 300px;
+  width: 700px;
+  font-size: 60px;
+}
